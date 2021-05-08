@@ -1,0 +1,27 @@
+<ion-list>
+  <ion-list-header lines="full">
+    <ion-label color="primary">New Parking Area</ion-label>    
+  </ion-list-header>
+  <ion-item>
+    <ion-label position="floating">Area Name</ion-label>
+    <ion-input name="name" [(ngModel)]="newArea.name"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Address</ion-label>
+    <ion-textarea [(ngModel)]="newArea.address"></ion-textarea>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Total Cars</ion-label>
+    <ion-input type="Number" [(ngModel)]="newArea.totalCars"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Total Bikes</ion-label>
+    <ion-input type="Number" [(ngModel)]="newArea.totalBikes"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Total Heavy Vehicles</ion-label>
+    <ion-input type="Number" [(ngModel)]="newArea.totalHeavy"></ion-input>
+  </ion-item>
+</ion-list>
+
+<ion-button (click)="dismiss()">Save</ion-button>

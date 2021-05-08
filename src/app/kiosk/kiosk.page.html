@@ -1,0 +1,15 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Kiosk</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container">    
+    <p><ion-button color="primary" (click)="startScan()">QR Scan</ion-button></p>
+    <h3><ion-label id="scan_output">{{scannedText}}</ion-label></h3>
+  </div>
+</ion-content>
