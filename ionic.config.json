@@ -1,0 +1,7 @@
+{
+  "name": "parkit",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}
