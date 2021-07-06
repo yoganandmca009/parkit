@@ -4,19 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CardsPageRoutingModule } from './cards-routing.module';
+import { RequestPageRoutingModule } from './request-routing.module';
 
-import { CardsPage } from './cards.page';
-import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { RequestPage } from './request.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    CardsPageRoutingModule,
-    NgxQRCodeModule
+    RequestPageRoutingModule
   ],
-  declarations: [CardsPage]
+  declarations: [RequestPage]
 })
-export class CardsPageModule {}
+export class RequestPageModule {}

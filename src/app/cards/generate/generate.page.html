@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>List of Cards</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item lines="none">
+    <ion-button slot="end" (click)="printPass()">Print All</ion-button>
+  </ion-item>
+  <ion-card *ngFor="let card of allCards">
+    <ion-card-content>
+      <ion-item lines="none">
+        <ion-label>{{card.card_key}}</ion-label>        
+      </ion-item>
+      <ion-item lines="none">
+        <ion-thumbnail slot="start">
+          <ngx-qrcode [value]="card.card_key"></ngx-qrcode>
+        </ion-thumbnail>
+        <ion-label>
+          <ion-label>{{getCardType(card.card_type)}}</ion-label>
+          <h2><b>{{getVehicleType(card.vehicle_type)}}</b></h2>
+          <h3>{{card.created_on}}</h3>
+        </ion-label>
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

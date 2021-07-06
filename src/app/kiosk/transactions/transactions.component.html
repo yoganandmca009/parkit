@@ -1,0 +1,49 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Kiosk</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-button expand="full" (click)="scan()">
+    Scan&nbsp;&nbsp;&nbsp;
+    <ion-icon name="qr-code-sharp"></ion-icon>
+  </ion-button>
+  <ion-segment (ionChange)="onStatusChange($event)" value="active">
+    <ion-segment-button value="active">
+      <ion-label>Active</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="completed">
+      <ion-label>Completed</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-list *ngIf="selectedStatus == 'active'">    
+    <ion-item *ngFor="let record of records">
+      <ion-thumbnail slot="start">
+        <ion-img src="{{getVehicleImage('CA')}}"></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h3>
+          <b>{{record.qrcode}}</b>
+        </h3>
+        <h4>{{record.insert_time}}</h4>        
+      </ion-label>
+    </ion-item>
+  </ion-list>
+  <ion-list *ngIf="selectedStatus == 'completed'">
+    <ion-item *ngFor="let record of completedRecords">
+      <ion-thumbnail slot="start">
+        <ion-img src="{{getVehicleImage(record.vehicle_type)}}"></ion-img>
+      </ion-thumbnail>
+      <ion-label>
+        <h3>
+          <b>{{record.qrcode}}</b>
+        </h3>
+        <h4>{{record.start_time}}</h4>
+        <h4>{{record.end_time}}</h4>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

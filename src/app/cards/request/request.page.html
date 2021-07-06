@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Request Cards</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+<ion-list>
+  <ion-item>
+    <ion-label>Vehicle Type</ion-label>
+    <ion-select value="notifications" interface="action-sheet" [(ngModel)]="request.vehicle_type">
+      <ion-select-option value="CY">Cycles</ion-select-option>
+      <ion-select-option value="BI">Bikes</ion-select-option>
+      <ion-select-option value="AU">Autos</ion-select-option>
+      <ion-select-option value="CA">Cars</ion-select-option>
+      <ion-select-option value="ME">Medium Size Vehicles</ion-select-option>
+      <ion-select-option value="HE">Heavy Size Vehicles</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Card Type</ion-label>
+    <ion-select interface="action-sheet" [(ngModel)]="request.card_type">
+      <ion-select-option value="RE">Regular</ion-select-option>
+      <ion-select-option value="DA">Daily Pass</ion-select-option>
+      <ion-select-option value="PA">Pass</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label position="floating">Cards size</ion-label>
+    <ion-input type="Number" [(ngModel)]="request.cards_size"></ion-input>
+  </ion-item>
+</ion-list>
+<ion-button expand="block" (click)="dismiss()">Send</ion-button>
+</ion-content>

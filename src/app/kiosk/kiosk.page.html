@@ -6,10 +6,76 @@
     <ion-title>Kiosk</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-  <div id="container">    
-    <p><ion-button color="primary" (click)="startScan()">QR Scan</ion-button></p>
-    <h3><ion-label id="scan_output">{{scannedText}}</ion-label></h3>
-  </div>
+<ion-content fullscreen class="ion-padding">
+  <ion-segment (ionChange)="onKioskModeChange($event)" value="{{kioskMode}}">
+    <ion-segment-button value="scanner">
+      <ion-label>Scanner</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="manual">
+      <ion-label>Manual</ion-label>
+    </ion-segment-button>
+  </ion-segment> 
+  <div id="qr-cam-window"></div>       
+  <ion-card class="vehicle-card" *ngIf="!isCameraOn">
+    <ion-card-header class="vehicle-card-header">      
+      <ion-card-title>Vehicle details</ion-card-title>
+    </ion-card-header>
+    <ion-card-content *ngIf="kioskMode =='scanner'">
+      <ion-item lines="none">
+          <ion-label  position="stacked">Enter Vehicle Number</ion-label>
+          <ion-input placeholder="Vehicle Number" [(ngModel)]="vehicleNo"></ion-input>  
+      </ion-item>      
+      <ion-item lines="none">
+        <ion-label  position="stacked">QR Code Number</ion-label>
+        <ion-input placeholder="QR Code" readonly value="{{scannedText}}"></ion-input>        
+      </ion-item>
+      <ion-item lines="none">
+        <ion-label  position="stacked">Vehicle Type</ion-label>
+        <ion-input placeholder="Vehicle Type" readonly value="{{getVehicleType(vehicleType)}}"></ion-input>        
+      </ion-item>
+      <ion-item lines="none">
+          <ion-label  position="stacked">Card Type</ion-label>
+          <ion-input placeholder="Card Type" readonly value="{{getCardType(cardType)}}"></ion-input>        
+      </ion-item>
+      <ion-item lines="none">
+          <ion-label class="statusMsg" id="status_output"></ion-label>
+      </ion-item>
+    </ion-card-content>
+    <ion-card-content *ngIf="kioskMode =='manual'">
+        <ion-item lines="none">
+            <ion-label  position="stacked">Enter Vehicle Number</ion-label>
+            <ion-input placeholder="Vehicle Number" [(ngModel)]="vehicleNo"></ion-input>  
+        </ion-item>              
+        <ion-item lines="none">
+          <ion-label  position="stacked">Select Vehicle Type</ion-label>
+          <ion-select placeholder="Vehicle Type" interface="action-sheet" [(ngModel)]="vehicleType">
+              <ion-select-option value="CY">Cycles</ion-select-option>
+              <ion-select-option value="BI">Bikes</ion-select-option>
+              <ion-select-option value="AU">Autos</ion-select-option>
+              <ion-select-option value="CA">Cars</ion-select-option>
+              <ion-select-option value="ME">Medium Size Vehicles</ion-select-option>
+              <ion-select-option value="HE">Heavy Size Vehicles</ion-select-option>
+          </ion-select>       
+        </ion-item>
+        <ion-item lines="none">
+            <ion-label  position="stacked">Select Card Type</ion-label>
+            <ion-select placeholder="Card Type" interface="action-sheet" [(ngModel)]="cardType">
+                <ion-select-option value="RE">Regular</ion-select-option>
+                <ion-select-option value="DA">Daily Pass</ion-select-option>
+                <ion-select-option value="PA">Pass</ion-select-option>
+            </ion-select>       
+        </ion-item>
+        <ion-item lines="none">
+            <ion-label class="statusMsg" id="status_output"></ion-label>
+        </ion-item>
+      </ion-card-content>
+  </ion-card>
 </ion-content>
+<ion-footer>
+  <ion-toolbar>
+    <ion-button color="primary" *ngIf="kioskMode =='scanner'" (click)="startScan()">Scan</ion-button>
+    <ion-button color="primary" *ngIf="kioskMode =='manual'" (click)="check()">Check</ion-button>
+    <ion-button id="btnTransact" color="primary" *ngIf="transactionStatus" (click)="transact()">{{transactionStatus}}</ion-button>
+    <ion-button color="secondary" (click)="close()" slot="end">Close</ion-button>
+  </ion-toolbar>
+</ion-footer>

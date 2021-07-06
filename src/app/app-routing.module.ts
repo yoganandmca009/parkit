@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AreasPage } from './areas/areas.page';
 import { FolderPage } from './folder/folder.page';
+import { TransactionsComponent } from './kiosk/transactions/transactions.component';
 
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./areas/areas.module').then( m => m.AreasPageModule)
+    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
   },
   {
     path: 'areas',
@@ -14,7 +15,7 @@ const routes: Routes = [
   },  
   {path: 'folder', component: FolderPage},   
   {
-    path: 'kiosk',
+    path: 'kiosk/scan',
     loadChildren: () => import('./kiosk/kiosk.module').then( m => m.KioskPageModule)
   },
   {
@@ -32,10 +33,14 @@ const routes: Routes = [
   {
     path: 'reports',
     loadChildren: () => import('./reports/reports.module').then( m => m.ReportsPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'kiosk', component: TransactionsComponent 
   }
- 
-
-
 ];
 
 @NgModule({

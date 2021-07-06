@@ -11,19 +11,20 @@
   <ion-list>
     <ion-list-header lines="full">
       <ion-label>List</ion-label>
-      <ion-button (click)="addArea()"><ion-icon name="add-outline"></ion-icon></ion-button>
+      <ion-button (click)="addArea()"><ion-icon name="add"></ion-icon></ion-button>
     </ion-list-header>
     <ion-item *ngFor="let area of areas"> 
       <ion-thumbnail slot="start">
         <img src="{{area.image}}">
       </ion-thumbnail>
-      <ion-label>
+      <ion-label (click)="editArea()">
         <h2>{{area.name}}</h2>
         <h3>{{area.address}}</h3>
         <p><ion-icon name="car-sport-sharp"></ion-icon>:{{area.totalCars}},
         <ion-icon name="bicycle-sharp"></ion-icon>:{{area.totalBikes}},
         <ion-icon name="bus-sharp"></ion-icon>:{{area.totalHeavy}}</p>
       </ion-label>
+      <ion-button fill="outline" slot="end" (click)="deleteArea()"><ion-icon name="trash"></ion-icon></ion-button>
     </ion-item>    
   </ion-list>
 </ion-content>

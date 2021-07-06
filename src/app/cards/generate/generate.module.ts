@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CardsPageRoutingModule } from './cards-routing.module';
+import { GeneratePageRoutingModule } from './generate-routing.module';
 
-import { CardsPage } from './cards.page';
+import { GeneratePage } from './generate.page';
 import { NgxQRCodeModule } from 'ngx-qrcode2';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
     CommonModule,
     FormsModule,
     IonicModule,
-    CardsPageRoutingModule,
+    GeneratePageRoutingModule,
     NgxQRCodeModule
   ],
-  declarations: [CardsPage]
+  declarations: [GeneratePage]
 })
-export class CardsPageModule {}
+export class GeneratePageModule {}

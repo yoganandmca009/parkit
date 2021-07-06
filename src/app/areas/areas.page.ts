@@ -10,9 +10,7 @@ import { AddareaComponent } from './addarea/addarea.component';
 })
 export class AreasPage implements OnInit {
 
-  public areas = [];
-
-  public newArea = Area.init();
+  public areas = []; 
 
   private modal:any;
 
@@ -49,8 +47,14 @@ export class AreasPage implements OnInit {
 
   }
 
+  editArea(){
+    console.log("Edit Area");
+  }
+
   deleteArea() {
 
+    console.log("Delete Area");
+    
   }
 
 }
