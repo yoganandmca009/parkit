@@ -7,10 +7,21 @@
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-button expand="full" (click)="scan()">
-    Scan&nbsp;&nbsp;&nbsp;
-    <ion-icon name="qr-code-sharp"></ion-icon>
-  </ion-button>
+  <ion-card class="vehicle-card">    
+    <ion-card-header class="vehicle-card-header">      
+        <ion-card-title style="color:white">Select Kiosk Mode</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+        <ion-button expand="block" size="large" (click)="scan()">
+            <ion-icon name="qr-code-sharp"></ion-icon>&nbsp;Scanner            
+          </ion-button>
+          <ion-button expand="block" size="large" (click)="manual()">
+              <ion-icon name="accessibility-outline"></ion-icon>&nbsp;Manual              
+            </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+
   <ion-segment (ionChange)="onStatusChange($event)" value="active">
     <ion-segment-button value="active">
       <ion-label>Active</ion-label>
@@ -19,31 +30,42 @@
       <ion-label>Completed</ion-label>
     </ion-segment-button>
   </ion-segment>
-  <ion-list *ngIf="selectedStatus == 'active'">    
-    <ion-item *ngFor="let record of records">
-      <ion-thumbnail slot="start">
-        <ion-img src="{{getVehicleImage('CA')}}"></ion-img>
-      </ion-thumbnail>
+  <ion-list class="trans_list" *ngIf="selectedStatus == 'active'">    
+    <ion-item class="trans_item" *ngFor="let record of records">
+      <ion-avatar slot="start">
+        <img src="{{getVehicleImage(record.vehicle_type)}}"/>
+      </ion-avatar>
       <ion-label>
+        <h2><u>Vehicle No</u>:{{record.vehicle_no}}</h2>
         <h3>
-          <b>{{record.qrcode}}</b>
-        </h3>
-        <h4>{{record.insert_time}}</h4>        
+          <b><u>Code</u></b>:{{record.qrcode}}
+        </h3>        
+        <h4>Start: {{record.insert_time}}</h4>        
       </ion-label>
+      <ion-button (click)="viewRecord(record)">
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-button>      
     </ion-item>
   </ion-list>
-  <ion-list *ngIf="selectedStatus == 'completed'">
-    <ion-item *ngFor="let record of completedRecords">
-      <ion-thumbnail slot="start">
-        <ion-img src="{{getVehicleImage(record.vehicle_type)}}"></ion-img>
-      </ion-thumbnail>
-      <ion-label>
+  <ion-list class="trans_list" *ngIf="selectedStatus == 'completed'">
+    <ion-item class="trans_item" *ngFor="let record of completedRecords">      
+      <ion-avatar slot="start">
+        <img src="{{getVehicleImage(record.vehicle_type)}}"/>
+      </ion-avatar>
+      <ion-label expand="block">
+        <h2><u>Vehicle No</u>:{{record.vehicle_no}}</h2>
         <h3>
-          <b>{{record.qrcode}}</b>
+          <b><u>Code</u></b>:{{record.qrcode}}
         </h3>
-        <h4>{{record.start_time}}</h4>
-        <h4>{{record.end_time}}</h4>
-      </ion-label>
+        <h4>S: {{record.start_time}}</h4>
+        <h4>E: {{record.end_time}}</h4>        
+      </ion-label>  
+      <ion-button (click)="viewRecord(record)">
+        <ion-icon name="eye-outline"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon name="print"></ion-icon>
+      </ion-button>          
     </ion-item>
   </ion-list>
 </ion-content>

@@ -30,3 +30,18 @@ ion-app.has-camera ion-content {
   --background: transparent;
   background: transparent !important;
 }
+
+.card-header{
+  background-color: lightblue;
+}
+
+.warn-alert {  
+  .alert-message.sc-ion-alert-md, .alert-message.sc-ion-alert-ios {
+      color: red;
+  }  
+}
+.success-alert {  
+  .alert-message.sc-ion-alert-md, .alert-message.sc-ion-alert-ios {
+      color: green;
+  }  
+}

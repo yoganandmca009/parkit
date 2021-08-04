@@ -4,16 +4,17 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { KioskPage } from './kiosk.page';
-import { KioskPageRoutingModule } from './kiosk-routing.module';
+import { ManualPageRoutingModule } from './manual-routing.module';
+
+import { ManualPage } from './manual.page';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    KioskPageRoutingModule
+    ManualPageRoutingModule
   ],
-  declarations: [KioskPage]
+  declarations: [ManualPage]
 })
-export class KioskPageModule {}
+export class ManualPageModule {}

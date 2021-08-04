@@ -1,14 +1,19 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { VehicleType } from '../pricing/pricing_rules';
 
 @Injectable({
   providedIn: 'root'
 })
 export default class AppUtils {
 
-  constructor(private http: HttpClient) {
 
+  private vehicleTypes: string[] = ["Autos", "Cycles", "Bikes", "Cars", "Medium Vehicles", "Heavy Vehicles"];
+
+
+  constructor(private http: HttpClient) {
+    
   }
 
   public callHttpApi(url, requestBody, headers, method): Observable<any> {
@@ -62,5 +67,8 @@ export default class AppUtils {
       case "CY":
         return "/assets/vehicles/cycle.jpg";
     }
+  }
+  getAllVehicleTypes() {
+    return this.vehicleTypes;
   }
 }

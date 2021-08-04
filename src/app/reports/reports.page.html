@@ -6,7 +6,128 @@
     <ion-title>Reports</ion-title>
   </ion-toolbar>
 </ion-header>
-
 <ion-content>
-
+  <ion-segment (ionChange)="onStatusChange($event)" value="detail">
+      <ion-segment-button value="detail">
+        <ion-label>Detail Report</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="allin">
+        <ion-label>AllIn Report</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+  <ion-card *ngIf="selectedReport == 'detail'">
+    <ion-item>
+      <ion-label>Start Date {{searchFilter.start_date}}</ion-label>
+      <ion-button (click)="showDateTimepicker('s')">
+        <ion-icon name="calendar"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>End Date {{searchFilter.end_date}}</ion-label>
+      <ion-button (click)="showDateTimepicker('e')">
+        <ion-icon name="calendar"></ion-icon>
+      </ion-button>
+    </ion-item>
+    <ion-item>
+      <ion-label>Status</ion-label>
+      <ion-select interface="action-sheet" [(ngModel)]="searchFilter.status">
+        <ion-select-option value="all">All</ion-select-option>
+        <ion-select-option value="in">IN</ion-select-option>
+        <ion-select-option value="out">OUT</ion-select-option>
+        <ion-select-option value="pass">Pass</ion-select-option>
+        <ion-select-option value="allins">AllIns</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Vehicle Type</ion-label>
+      <ion-select value="notifications" interface="action-sheet" [(ngModel)]="searchFilter.vehicle_type">
+        <ion-select-option value="all">All</ion-select-option>
+        <ion-select-option value="CY">Cycles</ion-select-option>
+        <ion-select-option value="BI">Bikes</ion-select-option>
+        <ion-select-option value="AU">Autos</ion-select-option>
+        <ion-select-option value="CA">Cars</ion-select-option>
+        <ion-select-option value="ME">Medium Size Vehicles</ion-select-option>
+        <ion-select-option value="HE">Heavy Size Vehicles</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-button expand="block" (click)="filter()">Submit</ion-button>
+  </ion-card>
+  <div *ngIf="selectedReport == 'detail'">
+  Total Amount: {{data.total_amount}} Total Records: {{data.total_records}}
+  <table width="100%">
+    <tr>
+      <th>
+        <div>VehicleNo</div>
+      </th>
+      <th>
+        <div>Type</div>
+      </th>
+      <th>
+        <div>Duration</div>
+      </th>
+      <th>
+        <div>Price</div>
+      </th>
+      <th>
+        <div>Status</div>
+      </th>
+    </tr>
+    <tr *ngFor="let record of data.data">
+      <td>
+        <div>{{record.vehicle_no}}</div>
+      </td>
+      <td>
+        <div>{{getVehicleType(record.vehicle_type)}}</div>
+      </td>
+      <td>
+        <div>{{record.duration}}</div>
+      </td>
+      <td>
+        <div>{{record.price}}</div>
+      </td>
+      <td>
+        <div>{{record.status}}</div>
+      </td>
+    </tr>
+  </table>
+</div>
+  <div *ngIf="selectedReport == 'allin'">
+      Total Amount: {{allInData.total_amount}} Total Records: {{allInData.total_records}}
+      <table width="100%">
+          <tr>
+              <th>
+                <div>VehicleNo</div>
+              </th>
+              <th>
+                <div>Type</div>
+              </th>
+              <th>
+                <div>InTime</div>
+              </th>
+              <th>
+                <div>Price</div>
+              </th>
+              <th>
+                <div>QrCode</div>
+              </th>
+            </tr>
+            <tr *ngFor="let record of allInData.data">
+              <td>
+                <div>{{record.vehicle_no}}</div>
+              </td>
+              <td>
+                <div>{{getVehicleType(record.vehicle_type)}}</div>
+              </td>
+              <td>
+                <div>{{record.insert_time}}</div>
+              </td>
+              <td>
+                <div>{{record.price}}</div>
+              </td>
+              <td>
+                <div>{{record.qrcode}}</div>
+              </td>
+            </tr>
+      </table>
+  </div>
 </ion-content>

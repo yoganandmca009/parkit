@@ -1,0 +1,199 @@
+<ion-header [translucent]="true">
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+      <ion-title>Manual</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content fullscreen class="ion-padding">
+    <ion-segment>
+      <ion-segment-button value="scanner">
+        <ion-label>Regular</ion-label>
+      </ion-segment-button>      
+    </ion-segment>
+    <ion-card class="parking-card-header">
+        <ion-card-content>
+            <ion-label>
+                <h2 align="center">TSRTC - Parking Stand</h2>
+                <h5 align="center">MGBS Bus Stand</h5>
+                <h5 align="center">Hyderabad</h5>
+              </ion-label>
+        </ion-card-content>
+    </ion-card>    
+    <ion-card class="vehicle-card">
+      <ion-card-header class="vehicle-card-header">      
+        <ion-card-title style="color:white">Vehicle IN</ion-card-title>
+      </ion-card-header>
+      <ion-card-content> 
+          <ion-label><ion-radio-group [(ngModel)]="vehicleType">                  
+              <h3><b>Vehicle Types</b></h3>                        
+              <ion-radio value="CA"></ion-radio>
+              <ion-label>&nbsp;Cars&nbsp;</ion-label>                    
+              <ion-radio value="CY"></ion-radio>
+              <ion-label>&nbsp;Cycles&nbsp;</ion-label>          
+              <ion-radio value="BI"></ion-radio>
+              <ion-label>&nbsp;Bikes&nbsp;</ion-label>                    
+              <ion-radio value="AU"></ion-radio>
+              <ion-label>&nbsp;Autos&nbsp;</ion-label>          
+              <ion-radio value="ME"></ion-radio>
+              <ion-label>&nbsp;Medium&nbsp;</ion-label>
+              <ion-radio value="HE"></ion-radio>
+              <ion-label>&nbsp;Heavy&nbsp;</ion-label>          
+          </ion-radio-group>
+        </ion-label>
+        <p></p>
+          <ion-label  position="stacked"><b>Vehicle Number</b></ion-label>
+          <ion-item lines="none">
+              <ion-icon class="vehicle-number-check" size="large" name="checkbox"></ion-icon>
+              <ion-input class="vehicle-number" placeholder="Enter Vehicle Number" [(ngModel)]="vehicleNo"></ion-input>  
+          </ion-item>      
+     <!--   <ion-item lines="none">
+          <ion-label  position="stacked">QR Code Number</ion-label>
+          <ion-input placeholder="QR Code" readonly value="{{scannedText}}"></ion-input>        
+        </ion-item>
+        <ion-item lines="none">
+          <ion-label  position="stacked">Vehicle Type</ion-label>
+          <ion-input placeholder="Vehicle Type" readonly value="{{getVehicleType(vehicleType)}}"></ion-input>        
+        </ion-item>
+        <ion-item lines="none">
+            <ion-label  position="stacked">Card Type</ion-label>
+            <ion-input placeholder="Card Type" readonly value="{{getCardType(cardType)}}"></ion-input>        
+        </ion-item>-->
+          <ion-button color="primary" (click)="check('in')" style="padding-top:5px;width:100%;height:50px">Vehicle In</ion-button>
+      <div>View Bill&nbsp;&nbsp;|&nbsp;&nbsp;Print Bill&nbsp;&nbsp;|&nbsp;&nbsp;Last vIns</div>
+       <!-- <ion-item lines="none">
+            <ion-label class="statusMsg" id="status_output"></ion-label>
+        </ion-item>-->
+      </ion-card-content>
+  </ion-card>
+  <br/>
+  
+   <ion-card class="vehicle-card">
+   <ion-card-header class="vehicle-card-header">      
+        <ion-card-title style="color:white">Vehicle OUT</ion-card-title>
+      </ion-card-header>
+  
+  <ion-card-content>      
+          <ion-label  position="stacked"><b>Vehicle Number</b></ion-label>
+          <ion-item lines="none">
+              <ion-icon class="vehicle-number-check" size="large" name="checkbox"></ion-icon>
+              <ion-input class="vehicle-number" placeholder="Enter Vehicle Number" [(ngModel)]="outVehicleNo"></ion-input>  
+          </ion-item>           
+          <ion-button color="primary" (click)="check('out')" style="padding-top:5px;width:100%;height:50px">Vehicle Out</ion-button>
+          <div *ngIf="isDone" class="end-style">
+            <span class="white-blue">Rs: {{price}}</span>&nbsp;---&nbsp;<span class="white-blue">{{duration}}</span>
+          </div>
+          <div>View Bill&nbsp;&nbsp;|&nbsp;&nbsp;Print Bill&nbsp;&nbsp;|&nbsp;&nbsp;Last vOuts</div>       
+      </ion-card-content>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+      
+      <!--<ion-card-content *ngIf="kioskMode =='manual'">
+          <ion-item lines="none">
+              <ion-label  position="stacked">Enter Vehicle Number</ion-label>
+              <ion-input placeholder="Vehicle Number" [(ngModel)]="vehicleNo"></ion-input>  
+          </ion-item>              
+          <ion-item lines="none">
+            <ion-label  position="stacked">Select Vehicle Type</ion-label>
+            <ion-select placeholder="Vehicle Type" interface="action-sheet" [(ngModel)]="vehicleType">
+                <ion-select-option value="CY">Cycles</ion-select-option>
+                <ion-select-option value="BI">Bikes</ion-select-option>
+                <ion-select-option value="AU">Autos</ion-select-option>
+                <ion-select-option value="CA">Cars</ion-select-option>
+                <ion-select-option value="ME">Medium Size Vehicles</ion-select-option>
+                <ion-select-option value="HE">Heavy Size Vehicles</ion-select-option>
+            </ion-select>       
+          </ion-item>
+          <ion-item lines="none">
+              <ion-label  position="stacked">Select Card Type</ion-label>
+              <ion-select placeholder="Card Type" interface="action-sheet" [(ngModel)]="cardType">
+                  <ion-select-option value="RE">Regular</ion-select-option>
+                  <ion-select-option value="DA">Daily Pass</ion-select-option>
+                  <ion-select-option value="PA">Pass</ion-select-option>
+              </ion-select>       
+          </ion-item>
+          <ion-item lines="none">
+              <ion-label class="statusMsg" id="status_output"></ion-label>
+          </ion-item>
+        </ion-card-content>-->
+    </ion-card>
+  
+  <ion-card class="vehicle-card" *ngIf="kioskMode =='passes'">  
+  
+  <ion-card-header class="vehicle-card-header" *ngIf="kioskMode =='passes'">      
+        <ion-card-title style="color:white">New Pass</ion-card-title>
+      </ion-card-header>
+   <ion-card-content *ngIf="kioskMode =='passes'">
+  
+  <ion-list>
+    <ion-radio-group>
+     
+     <ion-radio value="cord"></ion-radio>
+        <ion-label>&nbsp;&nbsp;Monthly Pass&nbsp;</ion-label>
+        
+         <br/>
+        
+       <ion-radio value="cord"></ion-radio>
+        <ion-label>&nbsp;&nbsp;Weekly Pass&nbsp;&nbsp;&nbsp;</ion-label>
+        <ion-radio value="cord"></ion-radio>
+        <ion-label>&nbsp;&nbsp;Quaterly Pass</ion-label>
+  <br/>
+        
+       <ion-radio value="cord"></ion-radio>
+        <ion-label>&nbsp;&nbsp;Half Yearly Pass&nbsp;&nbsp;&nbsp;</ion-label>
+        <ion-radio value="cord"></ion-radio>
+        <ion-label>&nbsp;&nbsp;Yearly Pass</ion-label>
+        
+      
+    </ion-radio-group>
+    </ion-list>
+  
+  
+   <div position="stacked" style="padding-top:3px;padding-bottom:3px;font-weight:bold">Vehicle Number</div>
+      
+        
+            
+            <ion-input placeholder="Enter Vehicle Number" class="txtboxstyle" [(ngModel)]="vehicleNo"></ion-input>  
+        
+   <div position="stacked" style="padding-top:3px;padding-bottom:3px;font-weight:bold">Mobile Number</div>         
+            <ion-input placeholder="Enter Mobile Number" class="txtboxstyle" [(ngModel)]="vehicleNo"></ion-input>  
+        
+  <div position="stacked" style="padding-top:3px;padding-bottom:3px;font-weight:bold">Validity Starts From</div>         
+            <ion-input placeholder="Validity" class="txtboxstyle" [(ngModel)]="vehicleNo"></ion-input>  
+   
+          <ion-button color="primary" *ngIf="kioskMode =='passes'" (click)="startScan()" style="padding-top:5px;width:100%;height:50px">Create Pass</ion-button>
+      <div>View Bill&nbsp;&nbsp;|&nbsp;&nbsp;Print Bill&nbsp;&nbsp;|&nbsp;&nbsp;Last vIns</div>
+     
+  </ion-card-content>
+  </ion-card>
+  
+  
+  
+  <ion-card class="vehicle-card" *ngIf="kioskMode =='passes'">  
+  
+  <ion-card-header class="vehicle-card-header" *ngIf="kioskMode =='passes'">      
+        <ion-card-title style="color:white">Recharge Pass</ion-card-title>
+      </ion-card-header>
+   <ion-card-content *ngIf="kioskMode =='passes'">
+     <ion-button color="primary" *ngIf="kioskMode =='passes'" (click)="startScan()" style="padding-top:5px;width:100%;height:50px">View Pass</ion-button>
+   </ion-card-content>
+   </ion-card>
+  
+  </ion-content>
+  <ion-footer>
+   <!-- <ion-toolbar>
+      <ion-button color="primary" *ngIf="kioskMode =='scanner'" (click)="startScan()">Scan</ion-button>
+      <ion-button color="primary" *ngIf="kioskMode =='manual'" (click)="check()">Check</ion-button>
+      <ion-button id="btnTransact" color="primary" *ngIf="transactionStatus" (click)="transact()">{{transactionStatus}}</ion-button>
+      <ion-button color="secondary" (click)="close()" slot="end">Close</ion-button>
+    </ion-toolbar>-->
+  </ion-footer>

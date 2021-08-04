@@ -1,16 +1,12 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
-import { KioskPage } from './kiosk.page';
+import { ManualPage } from './manual.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: KioskPage
-  },
-  {
-    path: 'kiosk-all/manual',
-    loadChildren: () => import('./manual/manual.module').then( m => m.ManualPageModule)
+    component: ManualPage
   }
 ];
 
@@ -18,4 +14,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class KioskPageRoutingModule {}
+export class ManualPageRoutingModule {}

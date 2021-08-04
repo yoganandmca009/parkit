@@ -1,0 +1,24 @@
+
+.ion-list .ion-item.item-accordion {
+    line-height: 38px;
+    padding-top: 0;
+    padding-bottom: 0;
+    transition: 0.09s all linear;
+  }
+  .ion-list .ion-item.item-accordion.ng-hide {
+    line-height: 0px;
+  }
+  .ion-list .ion-item.item-accordion.ng-hide-add,
+  .ion-list .ion-item.item-accordion.ng-hide-remove {
+    display: block !important;
+  }
+
+  .rule-header{
+    background-color: lightblue;
+  }
+
+  .grace_period{
+    margin-top: 5px !important;
+    border-style: solid !important;
+    border-width: 2px !important;
+  }

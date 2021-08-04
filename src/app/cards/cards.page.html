@@ -27,7 +27,7 @@
       </ion-button>
     </ion-list-header>
     <ion-card *ngFor="let cardRequest of cardRequests">
-      <ion-card-header>
+      <ion-card-header class="card-header">
         <ion-card-title>{{getVehicleType(cardRequest.vehicle_type)}}</ion-card-title>
         <ion-card-subtitle>{{getCardType(cardRequest.card_type)}}</ion-card-subtitle>
       </ion-card-header>

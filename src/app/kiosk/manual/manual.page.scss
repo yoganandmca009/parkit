@@ -1,0 +1,41 @@
+.vehicle-card{
+    border-color: green;
+    border-width: 1px;
+    border-style: solid;
+  }
+  
+  .vehicle-card-header{
+    background-color: #3e69b3;
+  }
+
+  .parking-card-header{
+    background-color: #3e69b3;
+    color: #ffffff;
+  }
+  .vehicle-number{
+    border: 1px;
+    border-color: green;
+    border-style: solid;
+    padding-left: 5px !important;
+  }
+  
+  .vehicle-number-check{
+    border: 1px;
+      border-color: green;
+      border-style: solid;
+      padding: 6px;
+      background-color: #b8d8b8;
+  }
+
+  .end-style {
+    background-color: #3e69b3 !important;    
+    padding: 7px;
+    border-radius: 5px;      
+  }
+
+  .white-blue {
+    background-color: white;
+    color: #3e69b3;
+    padding: 3px;
+    border-radius: 3px;
+  }

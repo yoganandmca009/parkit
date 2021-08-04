@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import AppUtils from '../../utils/app.utils';
 import { Router } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-transactions',
@@ -13,8 +14,10 @@ export class TransactionsComponent implements OnInit {
   completedRecords: any;
 
   selectedStatus: string = "active";
+  _this = this;
 
-  constructor(private appUtils: AppUtils, private router: Router) { }
+  constructor(private appUtils: AppUtils, private router: Router,
+              private alertCtrl: AlertController) { }
 
 
   ngOnInit() {
@@ -53,6 +56,9 @@ export class TransactionsComponent implements OnInit {
   scan() {
     this.router.navigateByUrl("kiosk/scan");
   }
+  manual() {
+    this.router.navigateByUrl("kiosk/manual");
+  }
 
   onStatusChange(e) {
     console.log("onStatusChange=" + e.detail.value);
@@ -67,6 +73,25 @@ export class TransactionsComponent implements OnInit {
 
   getVehicleImage(type) {
     return this.appUtils.getVehicleImageLink(type);
+  }
+
+  viewRecord(rec){
+    let message = "<p><b>Vehicle No:</b>" + rec.vehicle_no + "</p>";
+    message += "<p><b>Vehicle Type:</b>" + this.appUtils.getVehicleType(rec.vehicle_type) + "</p>";
+    message += "<p><b>Price:</b>" + rec.price + "</p>";
+    message += "<p><b>Duration:</b>" + rec.duration + "</p>";
+    this.presentAlert(message);
+  }
+
+  async presentAlert(message) {    
+    
+    let alert = await this.alertCtrl.create({
+      header: "TSRTC - Parking Stand",
+      subHeader: "MGBS Bus Stand - Hyderabad",
+      message: message,
+      buttons: ['Close']
+    });        
+    await alert.present();
   }
 
 }

@@ -8,5 +8,48 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <div *ngFor="let vehicleType of vehicleTypes">
+      <ion-item>
+        <ion-label (click)="toggleGroup(vehicleType)">
+          <ion-icon name="checkmark-circle"></ion-icon>
+          {{getVehicleType(vehicleType.vehicle_type)}} Pricing        
+        </ion-label>
+        <ion-button (click)="updatePriceList(vehicleType)" slot="end">Save</ion-button>
+      </ion-item>      
+      <div *ngIf="isGroupShown(vehicleType)">
+        <ion-item lines="none">            
+            <ion-label color="primary" position="stacked">Enter Grace Period</ion-label>
+            <ion-input class="grace_period" [(ngModel)]="vehicleType.grace_period"></ion-input>
+            <ion-button color="secondary" (click)="addRule(vehicleType)" slot="end"><ion-icon name="add"></ion-icon>Rule</ion-button>
+        </ion-item>        
+        <ion-item class="item-accordion" *ngFor="let rule of vehicleType.price_list">                      
+          <ion-card>
+            <ion-card-header class="rule-header">
+              <ion-item>
+                  <ion-label>Rule: {{rule.rule}}</ion-label>
+                  <ion-button slot="end" (click)="removeRule(vehicleType,rule)">X</ion-button>                  
+              </ion-item>                                      
+            </ion-card-header>
+            <ion-card-content>              
+              <ion-list>                
+                <ion-item>
+                  <ion-label color="primary" position="stacked">Enter Hours</ion-label>
+                  <ion-input [(ngModel)]="rule.hours"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="primary" position="stacked">Enter Minutes</ion-label>
+                  <ion-input [(ngModel)]="rule.minutes"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-label color="primary" position="stacked">Enter Parking Price</ion-label>
+                  <ion-input [(ngModel)]="rule.price"></ion-input>
+                </ion-item>                
+              </ion-list>
+            </ion-card-content>
+          </ion-card>
+        </ion-item>
+      </div>
+    </div>
+  </ion-list>
 </ion-content>

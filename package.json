@@ -20,6 +20,7 @@
     "@angular/platform-browser-dynamic": "~11.2.0",
     "@angular/router": "~11.2.0",
     "@ionic-native/core": "^5.32.1",
+    "@ionic-native/date-picker": "^5.34.0",
     "@ionic-native/flashlight": "^5.33.0",
     "@ionic-native/http": "^5.33.0",
     "@ionic-native/qr-scanner": "^5.32.1",
@@ -52,6 +53,7 @@
     "@types/node": "^12.11.1",
     "@typescript-eslint/eslint-plugin": "4.16.1",
     "@typescript-eslint/parser": "4.16.1",
+    "cordova-plugin-datepicker": "^0.9.3",
     "cordova-plugin-device": "^2.0.2",
     "cordova-plugin-ionic-keyboard": "^2.2.0",
     "cordova-plugin-ionic-webview": "^4.2.1",
@@ -87,7 +89,8 @@
       "cordova-plugin-ionic-keyboard": {},
       "cordova-plugin-qrscanner": {},
       "cordova-plugin-advanced-http": {},
-      "cordova-plugin-flashlight": {}
+      "cordova-plugin-flashlight": {},
+      "cordova-plugin-datepicker": {}
     },
     "platforms": [
       "browser",

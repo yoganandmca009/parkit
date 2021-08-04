@@ -40,7 +40,11 @@ const routes: Routes = [
   },
   {
     path: 'kiosk', component: TransactionsComponent 
-  }
+  },
+  {
+    path: 'kiosk/manual',
+    loadChildren: () => import('./kiosk/manual/manual.module').then( m => m.ManualPageModule)
+  },
 ];
 
 @NgModule({

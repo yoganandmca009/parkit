@@ -13,6 +13,7 @@ export class LoginPage implements OnInit {
 
   data: any = { username: "", password: "" };
 
+  error: string;
 
 
   constructor(private router: Router, private appUtils: AppUtils) {
@@ -29,8 +30,13 @@ export class LoginPage implements OnInit {
     var postData = "myData=" + JSON.stringify(requestBody);
     var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } }
     this.appUtils.callHttpApi('http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/login', postData, headers, "POST").subscribe(data => {
-      console.log("Login Success " + data);
-      this.router.navigateByUrl("areas");
+      console.log("Login Success " + JSON.stringify(data));
+      if(data.status == "success"){
+        this.router.navigateByUrl("areas");
+      }else{
+        this.error="Invalid username and password";        
+      }
+      
     });
   }
   
