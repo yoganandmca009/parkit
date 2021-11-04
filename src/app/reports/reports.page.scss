@@ -1,3 +1,19 @@
-table, th, td {
-    border: 1px solid black;
+
+
+.datatable-header{
+    background: rgba(164,192,214,1);
+    padding: 1em 0 0 1em;
 }
+.datatable-header-cell{
+    font-size: 1.2em;
+    font-weight: bold;
+}
+.ngx-datatable.bootstrap {
+    .datatable-header {
+      .datatable-header-cell {
+        background-color: lightgreen !important;
+      }
+    }
+  }
+    
+    

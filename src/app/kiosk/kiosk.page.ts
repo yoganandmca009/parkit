@@ -5,6 +5,14 @@ import { Flashlight } from '@ionic-native/flashlight/ngx';
 import AppUtils from '../utils/app.utils';
 import { ChangeDetectorRef } from '@angular/core';
 import { ToastController, AlertController } from '@ionic/angular';
+import { NativeAudio } from '@ionic-native/native-audio/ngx';
+import { AudioManagement } from '@ionic-native/audio-management/ngx';
+
+
+
+
+
+
 
 @Component({
   selector: 'app-kiosk',
@@ -16,7 +24,7 @@ export class KioskPage implements OnInit {
   domElement: any;
   camWindow: any;
   _this: any;
-
+  isOn: boolean = false;
   transactionStatus: string;
   transactionId: string;
   transactionTransId: string;
@@ -24,6 +32,9 @@ export class KioskPage implements OnInit {
   cardType: string = "---";
   scannedText: string = "---";
   vehicleNo: string;
+  is_helmet:boolean=false;
+  is_keys:boolean=false;
+  transStartTime:string="";
 
 
   kioskMode: string = "scanner";
@@ -34,21 +45,41 @@ export class KioskPage implements OnInit {
   duration: string = "0H0M";
 
   isDone: boolean= false;
+  inCount: number=0;
+  rows:any;
+  columns:any;
+  
 
   constructor(private activatedRoute: ActivatedRoute,
     private qrScanner: QRScanner, private flashlight: Flashlight, private appUtils: AppUtils,
     private changeDetectorRef: ChangeDetectorRef, private toastController: ToastController,
-    private router: Router, private alertCtrl: AlertController) {
+    private router: Router, private alertCtrl: AlertController,private nativeAudio: NativeAudio, private audio: AudioManagement) {
     this.flashlight = new Flashlight();
+    this.setRingtone();
+    
   }
-
+  setRingtone() {
+    // Preload the audio track 
+    console.log("In set Ringtone..")
+    this.nativeAudio.preloadSimple('uniqueId1', 'assets/notifications/beep.mp3');
+  }
+  playSingle() {
+    this.nativeAudio.play('uniqueId1').then(() => {
+      console.log('Successfully played');
+     // this.showAlert();
+    }).catch((err) => {
+      console.log('error', err);
+    });
+  }
   ngOnInit() {
+    //this.playSingle();
     this.domElement = window.document.querySelector('ion-app') as HTMLElement;
     this.camWindow = window.document.querySelector('#qr-cam-window') as HTMLElement;
     this.prepare();
     this.scannedText = "";
     this._this = this;
     this.transactionStatus;
+    this.getInCount();
   }
 
   ionViewWillLeave() {
@@ -104,18 +135,36 @@ export class KioskPage implements OnInit {
     this.hideCamera();
     console.log('Scanned:', text);
     //this.domElement.querySelector("#scan_output").innerText = text;
+    var len=this.scannedText.split("_").length
+    if (len != 3) {
+      console.log("In valid Card");
+      this.presentWarning("In Valid Card");
+      return;
+    }
+    
     this.vehicleType = this.scannedText.split("_")[0];
     this.cardType = this.scannedText.split("_")[1];
     this.changeDetectorRef.detectChanges();
     this.checkToBeginTrasaction(mode);
   }
 
+  getInCount(){
+    var requestBody = {  "db_name": "newbr_sample" };
+    var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
+    var postData = "myData=" + JSON.stringify(requestBody);
+    this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/incount", postData, headers, "POST").subscribe(data => {
+     // console.log("Qr Code Check:" + JSON.stringify(data));
+    this.inCount=data.cnt;
+    
+    });
+    
+  }
   checkToBeginTrasaction(mode) {
     var requestBody = { "qrcode": this.scannedText, "vehicle_no": this.vehicleNo, "mode": this.kioskMode, "db_name": "newbr_sample" };
     var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
     var postData = "myData=" + JSON.stringify(requestBody);
     this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/qrcodecheck", postData, headers, "POST").subscribe(data => {
-      console.log("Qr Code Check:" + JSON.stringify(data));
+    //  console.log("Qr Code Check:" + JSON.stringify(data));
       this.renderButton(data, mode);
       this.changeDetectorRef.detectChanges();
     });
@@ -142,7 +191,14 @@ export class KioskPage implements OnInit {
       this.isDone=true;
       this.changeDetectorRef.detectChanges();
       this.endCharge();
-    } else {
+    }else if(mode == "in" && this.transactionStatus == "end"){
+      this.changeDetectorRef.detectChanges();
+      this.presentWarning("This Card/Vehicl Number Already IN");
+    }else if(mode == "out" && this.transactionStatus == "start"){
+      this.changeDetectorRef.detectChanges();
+      this.presentWarning("This Card/Vehicl Number IN Not Found");
+    } 
+    else {
       this.changeDetectorRef.detectChanges();
       this.presentWarning(this.transactionStatus);
     }
@@ -150,7 +206,7 @@ export class KioskPage implements OnInit {
   }
 
   startCharge() {
-    var requestBody = { "vehicle_type": this.vehicleType, "card_type": this.cardType, "qrcode": this.scannedText, vehicle_no: this.vehicleNo, mode: this.kioskMode, "db_name": "newbr_sample" }
+    var requestBody = { "vehicle_type": this.vehicleType, "card_type": this.cardType, "qrcode": this.scannedText, vehicle_no: this.vehicleNo, mode: this.kioskMode, "is_helmet":this.is_helmet,"is_keys":this.is_keys,"db_name": "newbr_sample" }
     var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
     var postData = "myData=" + JSON.stringify(requestBody);
     this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/startcharge", postData, headers, "POST").subscribe(data => {
@@ -170,6 +226,7 @@ export class KioskPage implements OnInit {
       this.transactionStatus = undefined;
       this.vehicleType=data.vehicle_type;
       this.price=data.price;
+      this.transStartTime=data.start_time;
       this.duration=data.duration;
       this.changeDetectorRef.detectChanges();
       this.presentAlert("Out");
@@ -203,6 +260,7 @@ export class KioskPage implements OnInit {
     this.scannedText = "---";
     this.vehicleNo = undefined;
     this.isCameraOn = false;
+    this.offLight();
   }
 
   async presentAlert(mode) {
@@ -213,18 +271,25 @@ export class KioskPage implements OnInit {
     if(mode=="Out"){
       message += "<p><b>Price:</b>" + this.price + "</p>";
       message += "<p><b>Duration:</b>" + this.duration + "</p>";
+      console.log("In check=="+this.transStartTime);
+      message += "<p><b>Check In Time:</b>" + this.transStartTime + "</p>";
+      this.inCount--;
     }else{
       message += "<p style='color:green;'><b>CheckIn is success</b></p>";
+      this.inCount++;
     }    
     let alert = await this.alertCtrl.create({
       cssClass: "success-alert",
-      header: "TSRTC - Parking Stand",
-      subHeader: "MGBS Bus Stand - Hyderabad",
+     // header: "TSRTC - Parking Stand",
+      header: "MGBS Bus Stand - Hyderabad",
       message: message,
       buttons: ['Close']
     });
     this.reset();
+    this.is_helmet=false;
+    this.is_keys=false;
     this.changeDetectorRef.detectChanges();
+    this.playSingle();
     await alert.present();
   }
 
@@ -237,12 +302,76 @@ export class KioskPage implements OnInit {
   async presentWarning(error) {
     let alert = await this.alertCtrl.create({
       cssClass: 'warn-alert',
-      header: "TSRTC - Parking Stand",
-      subHeader: "MGBS Bus Stand - Hyderabad",
+      //header: "TSRTC - Parking Stand",
+      header: "MGBS Bus Stand - Hyderabad",
       message: error,
       buttons: ['Close']
     });    
     await alert.present();
+  }
+  toggleFlash() {
+    if (!this.isOn) {
+      this.qrScanner.enableLight()
+        .then((status: QRScannerStatus) => {
+          this.isOn = true;
+        })
+        .catch((err) => {
+          console.log("Enable Light:" + err);
+        });
+    } else {
+      this.offLight();
+    }
+  }
+
+  offLight() {
+    this.qrScanner.disableLight()
+      .then((status: QRScannerStatus) => {
+        this.isOn = false;
+      })
+      .catch((err) => {
+        console.log("Enable Light:" + err);
+      });
+  }
+  visitsin(){
+   // alert('In Visits In');
+    this.rows=[];
+    this.columns=[{prop:'vehicle_no'},{prop:'start_time'},{prop:'price'}];
+    this.loadLastVIns();
+    
+    return false;
+  }
+  visitsout(){
+  // alert('In Visits In');
+   this.rows=[];
+    this.columns=[{prop:'vehicle_no'},{prop:'duration'},{prop:'price'}];
+    this.loadLastVOuts();
+    return false;
+  }
+  loadLastVIns() {
+    let req = { db_name: "newbr_sample" };
+    var requestBody = req;
+    var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
+    var postData = "myData=" + JSON.stringify(requestBody);
+    this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/lastvins", postData, headers, "POST")
+      .subscribe(data => {
+        
+        this.rows=data.data;
+        this.changeDetectorRef.detectChanges();
+     //   console.log("Data in is "+JSON.stringify(this.rows));
+      });
+  }
+  loadLastVOuts() {
+    let req = { db_name: "newbr_sample" };
+    var requestBody = req;
+    var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
+    var postData = "myData=" + JSON.stringify(requestBody);
+    this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/lastvouts", postData, headers, "POST")
+      .subscribe(data => {
+        
+        this.rows=data;
+        this.changeDetectorRef.detectChanges();
+       // console.log("Data is "+JSON.stringify(this.rows));
+      });
   }
 
 }

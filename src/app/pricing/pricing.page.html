@@ -21,8 +21,20 @@
         <ion-item lines="none">            
             <ion-label color="primary" position="stacked">Enter Grace Period</ion-label>
             <ion-input class="grace_period" [(ngModel)]="vehicleType.grace_period"></ion-input>
-            <ion-button color="secondary" (click)="addRule(vehicleType)" slot="end"><ion-icon name="add"></ion-icon>Rule</ion-button>
-        </ion-item>        
+            <ion-button color="secondary" (click)="addRule(vehicleType)" slot="end"><ion-icon name="add"></ion-icon>Rule</ion-button>        
+          </ion-item>  
+         
+          <div *ngIf="vehicleType.vehicle_type == 'BI'" style="padding-right: 100px;">
+          <ion-item lines="none">            
+            <ion-label color="primary" position="stacked">Enter Helmet Price</ion-label>
+            <ion-input class="grace_period" [(ngModel)]="vehicleType.helmet_price"></ion-input>          
+          </ion-item>  
+          <ion-item lines="none">            
+            <ion-label color="primary" position="stacked">Enter Keys Price</ion-label>
+            <ion-input class="grace_period" [(ngModel)]="vehicleType.keys_price"></ion-input>          
+          </ion-item>  
+        </div>
+          
         <ion-item class="item-accordion" *ngFor="let rule of vehicleType.price_list">                      
           <ion-card>
             <ion-card-header class="rule-header">

@@ -24,9 +24,9 @@ export class AreasPage implements OnInit {
 
   getAllAreas() {
 
-    this.areas = [new Area("Forum Mall", "9th Phase, Kukatpally", "/assets/areas/mall.png", 200, 100, 50),
-    new Area("Hyderabad Central", "9th Phase, Punjagutta", "/assets/areas/mall.png", 1200, 600, 50),
-    new Area("IMDB", "9th Phase, Gachibowli", "/assets/areas/mall.png", 800, 100, 50),
+    this.areas = [new Area("MGBS Bus Stand", "MGBS", "/assets/areas/mall.png", 200, 100, 50)
+    
+    
     ];
 
   }

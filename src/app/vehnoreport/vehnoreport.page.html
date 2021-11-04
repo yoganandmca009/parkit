@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Vehicle No Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Enter Vehicle No</ion-label>
+    <ion-input name="name" [(ngModel)]="vehicle_no"></ion-input>
+  </ion-item>
+  <ion-button expand="block" (click)="filter()">Submit</ion-button>
+
+
+  <div *ngIf="selectedReport == 'detail'">
+    <div style="padding: 15px 14px 2px 10px;">     Total Amount: {{data.total_amount}} Total Records: {{data.total_records}}</div>
+  <!--<table width="100%">
+    <tr>
+      <th>
+        <div>VehicleNo</div>
+      </th>
+      <th>
+        <div>Type</div>
+      </th>
+      <th>
+        <div>Duration</div>
+      </th>
+      <th>
+        <div>Price</div>
+      </th>
+      <th>
+        <div>Status</div>
+      </th>
+    </tr>
+    <tr *ngFor="let record of data.data">
+      <td>
+        <div>{{record.vehicle_no}}</div>
+      </td>
+      <td>
+        <div>{{getVehicleType(record.vehicle_type)}}</div>
+      </td>
+      <td>
+        <div>{{record.duration}}</div>
+      </td>
+      <td>
+        <div>{{record.price}}</div>
+      </td>
+      <td>
+        <div>{{record.status}}</div>
+      </td>
+    </tr>
+  </table>-->
+  
+<ngx-datatable
+[rows]="rows1"
+[columns]="columns1"
+class="bootstrap"
+[limit]="10" 
+[columnMode]="'force'" [headerHeight]="40" [footerHeight]="40" 
+[rowHeight]="'auto'"
+[scrollbarH]="true"
+>
+
+</ngx-datatable>
+
+</div>
+
+
+</ion-content>
