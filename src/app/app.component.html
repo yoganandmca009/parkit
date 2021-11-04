@@ -3,16 +3,60 @@
     <ion-menu contentId="main-content" type="overlay">
       <ion-content>
         <ion-list id="inbox-list">
-          <ion-list-header>ParkIt</ion-list-header>
+          <ion-list-header>ParkNet</ion-list-header>
           <ion-note>A Parking Solution</ion-note>
 
           <ion-menu-toggle auto-hide="false" *ngFor="let p of appPages; let i = index">
             <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
               <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
               <ion-label>{{ p.title }}</ion-label>
+
+              
+
+
             </ion-item>
           </ion-menu-toggle>
+
+
+
+
+          <ion-item lines="none" (click)="isRemainder === 1 ? isRemainder = 0 : isRemainder = 1">
+            <ion-icon name="bar-chart" slot="start"></ion-icon>
+            Reports
+            <ion-icon slot="end" [name]="isRemainder? 'arrow-down' : 'add'"></ion-icon>
+          </ion-item>
+
+          <ion-menu-toggle auto-hide="false">
+            <ion-list lines="none">
+              <ion-item menuclose [hidden]="!isRemainder" routerDirection="root" [routerLink]="reports[0]" lines="none" detail="false"  menuClose class="sub-menu">                
+                All IN Report
+                <ion-icon slot="start" name="blank"></ion-icon>
+              </ion-item>
+              <ion-item menuclose [hidden]="!isRemainder" routerDirection="root" [routerLink]="reports[1]" lines="none" detail="false"  menuClose class="sub-menu">                
+                Detail Report
+                <ion-icon slot="start" name="blank"></ion-icon>
+              </ion-item>
+            <!---  <ion-item menuclose [hidden]="!isRemainder" routerDirection="root" [routerLink]="reports[2]" lines="none" detail="false"  menuClose class="sub-menu">                
+               Summary Report
+                <ion-icon slot="start" name="blank"></ion-icon>
+              </ion-item>-->
+              <ion-item menuclose [hidden]="!isRemainder" routerDirection="root" [routerLink]="reports[3]" lines="none" detail="false"  menuClose class="sub-menu">                
+                Vehicl No Report
+                 <ion-icon slot="start" name="blank"></ion-icon>
+               </ion-item>
+            </ion-list>
+          </ion-menu-toggle>
+
+          
+          <ion-menu-toggle auto-hide="false" *ngFor="let p of appPagesLast; let i = index">
+            <ion-item routerDirection="root" [routerLink]="[p.url]" lines="none" detail="false" routerLinkActive="selected">
+              <ion-icon slot="start" [ios]="p.icon + '-outline'" [md]="p.icon + '-sharp'"></ion-icon>
+              <ion-label>{{ p.title }}</ion-label>
+            </ion-item>
+          </ion-menu-toggle>
+
         </ion-list>
+        
 
         <!-- <ion-list id="labels-list">
           <ion-list-header>Labels</ion-list-header>

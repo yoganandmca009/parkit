@@ -7,7 +7,11 @@ const routes: Routes = [
   {
     path: '',
     component: ReportsPage
-  }
+  },
+  /*{
+    path: 'detailreport',
+    loadChildren: () => import('./detailreport/detailreport.module').then( m => m.DetailreportPageModule)
+  }*/
 ];
 
 @NgModule({

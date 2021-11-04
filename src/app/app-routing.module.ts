@@ -4,10 +4,12 @@ import { AreasPage } from './areas/areas.page';
 import { FolderPage } from './folder/folder.page';
 import { TransactionsComponent } from './kiosk/transactions/transactions.component';
 
+
 const routes: Routes = [
   {
     path: '',
-    loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
+   // loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
+   loadChildren: () => import('./areas/areas.module').then( m => m.AreasPageModule)
   },
   {
     path: 'areas',
@@ -35,6 +37,14 @@ const routes: Routes = [
     loadChildren: () => import('./reports/reports.module').then( m => m.ReportsPageModule)
   },
   {
+    path: 'allinreport',
+    loadChildren: () => import('./allinreport/allinreport.module').then( m => m.AllinreportPageModule)
+  },
+  {
+    path: 'summaryreport',
+    loadChildren: () => import('./summaryreport/summaryreport.module').then( m => m.SummaryreportPageModule)
+  },
+  {
     path: 'login',
     loadChildren: () => import('./auth/login/login.module').then( m => m.LoginPageModule)
   },
@@ -44,6 +54,22 @@ const routes: Routes = [
   {
     path: 'kiosk/manual',
     loadChildren: () => import('./kiosk/manual/manual.module').then( m => m.ManualPageModule)
+  },
+  {
+    path: 'allinreport',
+    loadChildren: () => import('./allinreport/allinreport.module').then( m => m.AllinreportPageModule)
+  },
+  {
+    path: 'summaryreport',
+    loadChildren: () => import('./summaryreport/summaryreport.module').then( m => m.SummaryreportPageModule)
+  },
+  {
+    path: 'pricecheck',
+    loadChildren: () => import('./pricecheck/pricecheck.module').then( m => m.PricecheckPageModule)
+  },
+  {
+    path: 'vehnoreport',
+    loadChildren: () => import('./vehnoreport/vehnoreport.module').then( m => m.VehnoreportPageModule)
   },
 ];
 

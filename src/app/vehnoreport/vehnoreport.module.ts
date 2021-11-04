@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ReportsPageRoutingModule } from './reports-routing.module';
+import { VehnoreportPageRoutingModule } from './vehnoreport-routing.module';
 
-import { ReportsPage } from './reports.page';
+import { VehnoreportPage } from './vehnoreport.page';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 
 @NgModule({
@@ -14,9 +14,9 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
     CommonModule,
     FormsModule,
     IonicModule,
-    ReportsPageRoutingModule,
+    VehnoreportPageRoutingModule,
     NgxDatatableModule
   ],
-  declarations: [ReportsPage]
+  declarations: [VehnoreportPage]
 })
-export class ReportsPageModule {}
+export class VehnoreportPageModule {}

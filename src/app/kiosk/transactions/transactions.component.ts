@@ -12,6 +12,9 @@ export class TransactionsComponent implements OnInit {
 
   records: any;
   completedRecords: any;
+  price: any;
+  duration: any;
+
 
   selectedStatus: string = "active";
   _this = this;
@@ -35,7 +38,7 @@ export class TransactionsComponent implements OnInit {
     this.appUtils.
       callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/qroutlist", postData, headers, "POST")
       .subscribe(data => {
-        console.log("Transaction Records " + JSON.stringify(data));
+        //console.log("Transaction Records " + JSON.stringify(data));
         this.records = data;
       });
   }
@@ -48,8 +51,23 @@ export class TransactionsComponent implements OnInit {
     this.appUtils.
       callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/translist", postData, headers, "POST")
       .subscribe(data => {
-        console.log("Completed Transaction Records " + JSON.stringify(data));
+        //console.log("Completed Transaction Records " + JSON.stringify(data));
         this.completedRecords = data;
+      });
+  }
+  getActiveVehiclePrice(vehicle_no) {
+    var requestBody = { db_name: '',vehicle_no:'' };
+    requestBody.db_name = "newbr_sample";
+    requestBody.vehicle_no = vehicle_no;
+    var postData = "myData=" + JSON.stringify(requestBody);
+    var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } }
+    this.appUtils.
+      callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/getactivevehicleprice", postData, headers, "POST")
+      .subscribe(data => {
+        this.duration=data.duration;
+        this.price=data.price;
+        //console.log("Out Data is  " + JSON.stringify(data)+"=="+this.duration);
+        //this.completedRecords = data;
       });
   }
 
@@ -75,7 +93,15 @@ export class TransactionsComponent implements OnInit {
     return this.appUtils.getVehicleImageLink(type);
   }
 
-  viewRecord(rec){
+  viewRecord(rec,type){
+ // console.log("Type=="+type);
+    if(type=="a"){
+    //  console.log("In TYpe==");
+this.getActiveVehiclePrice(rec.vehicle_no);
+//console.log("In TYpe==");
+rec.duration=this.duration;
+rec.price=this.price;
+    }
     let message = "<p><b>Vehicle No:</b>" + rec.vehicle_no + "</p>";
     message += "<p><b>Vehicle Type:</b>" + this.appUtils.getVehicleType(rec.vehicle_type) + "</p>";
     message += "<p><b>Price:</b>" + rec.price + "</p>";
@@ -86,8 +112,8 @@ export class TransactionsComponent implements OnInit {
   async presentAlert(message) {    
     
     let alert = await this.alertCtrl.create({
-      header: "TSRTC - Parking Stand",
-      subHeader: "MGBS Bus Stand - Hyderabad",
+      //header: "TSRTC - Parking Stand",
+      header: "MGBS Bus Stand - Hyderabad",
       message: message,
       buttons: ['Close']
     });        

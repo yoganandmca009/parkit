@@ -1,0 +1,80 @@
+ion-col {
+    border: 1px solid grey;
+    text-align: center;
+    padding-right: 0px;
+    padding-left: 0px;
+  }
+  ion-grid {
+    --ion-grid-column-padding: 10px;
+    border-collapse: collapse;
+    border-style: hidden;
+    height: 100%;
+  }
+  ion-row {
+    height: 38%;
+  }
+  .div1 {
+    border: 2px solid groove;
+  }
+  ion-icon {font-size: 6rem;}
+
+  .vehicle-card-header{
+    /* background-color: #3e69b3;*/
+     background-color: currentColor;
+   }
+   
+   .parking-card-header{
+    /* background-color: #3e69b3;*/
+     background-color: darkolivegreen;
+     color: #ffffff;
+   }
+   
+   .vehicle-number{
+     border: 1px;
+     border-color: green;
+     border-style: solid;
+     padding-left: 5px !important;
+   }
+   
+   .vehicle-number-check{
+     border: 1px;
+       border-color: green;
+       border-style: solid;
+       padding: 6px;
+       background-color: #b8d8b8;
+   }
+   .end-style {
+     background-color:lightblue !important;    
+     padding: 7px;
+     border-radius: 5px;    
+     width: 50%;  
+   }
+   
+   .white-blue {
+     background-color: white;
+     color: #3e69b3;
+     padding: 3px;
+     border-radius: 3px;
+   }
+/*ion-grid {
+    --ion-grid-column-padding: 10px;
+    border-collapse: collapse;
+    border-style: hidden;
+    
+    ion-row:first-child {
+      background-color:  #2dd36f;
+      font-weight: bold;
+    }
+    ion-col {
+      border: 1px solid black;
+      border-bottom: 0;
+      border-right: 0;
+    }
+    ion-col:last-child {
+      border-right: 1px solid black;
+    }
+    
+    ion-row:last-child {
+      border-bottom: 1px solid black;
+    }
+  }*/

@@ -3,19 +3,19 @@
     <ion-buttons slot="start">
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
-    <ion-title>Reports</ion-title>
+    <ion-title>Detail Report</ion-title>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-  <ion-segment (ionChange)="onStatusChange($event)" value="detail">
+<!--  <ion-segment (ionChange)="onStatusChange($event)" value="detail">
       <ion-segment-button value="detail">
         <ion-label>Detail Report</ion-label>
       </ion-segment-button>
       <ion-segment-button value="allin">
         <ion-label>AllIn Report</ion-label>
       </ion-segment-button>
-    </ion-segment>
-  <ion-card *ngIf="selectedReport == 'detail'">
+    </ion-segment>-->
+  <ion-card>
     <ion-item>
       <ion-label>Start Date {{searchFilter.start_date}}</ion-label>
       <ion-button (click)="showDateTimepicker('s')">
@@ -53,8 +53,8 @@
     <ion-button expand="block" (click)="filter()">Submit</ion-button>
   </ion-card>
   <div *ngIf="selectedReport == 'detail'">
-  Total Amount: {{data.total_amount}} Total Records: {{data.total_records}}
-  <table width="100%">
+    <div style="padding: 15px 14px 2px 10px;">     Total Amount: {{data.total_amount}} Total Records: {{data.total_records}}</div>
+  <!--<table width="100%">
     <tr>
       <th>
         <div>VehicleNo</div>
@@ -89,45 +89,20 @@
         <div>{{record.status}}</div>
       </td>
     </tr>
-  </table>
+  </table>-->
+  
+<ngx-datatable
+[rows]="rows1"
+[columns]="columns1"
+class="bootstrap"
+[limit]="10" 
+[columnMode]="'force'" [headerHeight]="40" [footerHeight]="40" 
+[rowHeight]="'auto'"
+[scrollbarH]="true"
+>
+
+</ngx-datatable>
+
 </div>
-  <div *ngIf="selectedReport == 'allin'">
-      Total Amount: {{allInData.total_amount}} Total Records: {{allInData.total_records}}
-      <table width="100%">
-          <tr>
-              <th>
-                <div>VehicleNo</div>
-              </th>
-              <th>
-                <div>Type</div>
-              </th>
-              <th>
-                <div>InTime</div>
-              </th>
-              <th>
-                <div>Price</div>
-              </th>
-              <th>
-                <div>QrCode</div>
-              </th>
-            </tr>
-            <tr *ngFor="let record of allInData.data">
-              <td>
-                <div>{{record.vehicle_no}}</div>
-              </td>
-              <td>
-                <div>{{getVehicleType(record.vehicle_type)}}</div>
-              </td>
-              <td>
-                <div>{{record.insert_time}}</div>
-              </td>
-              <td>
-                <div>{{record.price}}</div>
-              </td>
-              <td>
-                <div>{{record.qrcode}}</div>
-              </td>
-            </tr>
-      </table>
-  </div>
+ 
 </ion-content>

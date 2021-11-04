@@ -26,19 +26,27 @@ export class ManualPage implements OnInit {
   outVehicleNo: string;
 
   lVehicleNo: string;
-
+  is_helmet:boolean=false;
+  is_keys:boolean=false;
+  inCount: number=0;
+  rows:any;
+  columns:any;
 
   constructor(private appUtils: AppUtils,
     private changeDetectorRef: ChangeDetectorRef, private toastController: ToastController,
     private router: Router, private alertCtrl: AlertController) { }
 
   ngOnInit() {
+    this.getInCount();
   }
 
   check(mode) {    
     this.lVehicleNo = (mode == "out") ? this.outVehicleNo : this.vehicleNo;
+    console.log("ddd=="+this.vehicleType);
     if (this.lVehicleNo && this.lVehicleNo.trim().length > 0) {
-      this.checkToBeginTrasaction(mode);
+      
+        this.checkToBeginTrasaction(mode);
+    
     } else {
       console.log("Vehicle no is mandatory");      
       this.presentWarning("Vehicle no is mandatory");
@@ -76,16 +84,23 @@ export class ManualPage implements OnInit {
       this.changeDetectorRef.detectChanges();
       this.isDone = true;
       this.endCharge();
-    } else {
-      this.changeDetectorRef.detectChanges();      
-      this.presentWarning("Invalid In/Out");
+    }else if(mode == "in" && this.transactionStatus == "end"){
+      this.changeDetectorRef.detectChanges();
+      this.presentWarning("This Card/Vehicl Number Already IN");
+    }else if(mode == "out" && this.transactionStatus == "start"){
+      this.changeDetectorRef.detectChanges();
+      this.presentWarning("This Card/Vehicl Number IN Not Found");
+    } 
+    else {
+      this.changeDetectorRef.detectChanges();
+      this.presentWarning(this.transactionStatus);
     }
     console.log("calling transact() method");
   }
 
   startCharge() {
     if (this.lVehicleNo && this.lVehicleNo.trim().length > 0) {
-      var requestBody = { "vehicle_type": this.vehicleType, "card_type": this.cardType, "qrcode": this.scannedText, vehicle_no: this.lVehicleNo, mode: "manual", "db_name": "newbr_sample" }
+      var requestBody = { "vehicle_type": this.vehicleType, "card_type": this.cardType, "qrcode": this.scannedText, vehicle_no: this.lVehicleNo, mode: "manual", "is_helmet":this.is_helmet,"is_keys":this.is_keys,"db_name": "newbr_sample" }
       var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
       var postData = "myData=" + JSON.stringify(requestBody);
       this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/startcharge", postData, headers, "POST").subscribe(data => {
@@ -115,6 +130,17 @@ export class ManualPage implements OnInit {
     });
   }
 
+  getInCount(){
+    var requestBody = {  "db_name": "newbr_sample" };
+    var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
+    var postData = "myData=" + JSON.stringify(requestBody);
+    this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/incount", postData, headers, "POST").subscribe(data => {
+     // console.log("Qr Code Check:" + JSON.stringify(data));
+    this.inCount=data.cnt;
+    
+    });
+    
+  }
   getVehicleType(type) {
     return this.appUtils.getVehicleType(type);
   }
@@ -152,28 +178,75 @@ export class ManualPage implements OnInit {
     if(mode=="Out"){
       message += "<p><b>Price:</b>" + this.price + "</p>";
       message += "<p><b>Duration:</b>" + this.duration + "</p>";
+      this.inCount--;
     }else{
       message += "<p style='color:green;'><b>CheckIn is success</b></p>";
+      this.inCount++;
     }
     let alert = await this.alertCtrl.create({
       cssClass: "success-alert",
-      header: "TSRTC - Parking Stand",
-      subHeader: "MGBS Bus Stand - Hyderabad",
+    //  header: "TSRTC - Parking Stand",
+    header: "MGBS Bus Stand - Hyderabad",
       message: message,
       buttons: ['Close']
     });
     this.reset();
+    this.is_helmet=false;
+    this.is_keys=false;
     await alert.present();
   }
 
   async presentWarning(error) {
     let alert = await this.alertCtrl.create({
       cssClass: 'warn-alert',
-      header: "TSRTC - Parking Stand",
-      subHeader: "MGBS Bus Stand - Hyderabad",
+      //header: "TSRTC - Parking Stand",
+      header: "MGBS Bus Stand - Hyderabad",
       message: "<p style='color:red;'>"+error+"</p>",
       buttons: ['Close']
     });    
     await alert.present();
   }
+
+  visitsin(){
+    // alert('In Visits In');
+     this.rows=[];
+     this.columns=[{prop:'vehicle_no'},{prop:'start_time'},{prop:'price'}];
+     this.loadLastVIns();
+     
+     return false;
+   }
+   visitsout(){
+   // alert('In Visits In');
+    this.rows=[];
+     this.columns=[{prop:'vehicle_no'},{prop:'duration'},{prop:'price'}];
+     this.loadLastVOuts();
+     return false;
+   }
+   loadLastVIns() {
+     let req = { db_name: "newbr_sample" };
+     var requestBody = req;
+     var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
+     var postData = "myData=" + JSON.stringify(requestBody);
+     this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/lastvins", postData, headers, "POST")
+       .subscribe(data => {
+         
+         this.rows=data.data;
+         this.changeDetectorRef.detectChanges();
+      //   console.log("Data in is "+JSON.stringify(this.rows));
+       });
+   }
+   loadLastVOuts() {
+     let req = { db_name: "newbr_sample" };
+     var requestBody = req;
+     var headers = { headers: { 'Content-Type': 'application/x-www-form-urlencoded;charset-UTF-8' } };
+     var postData = "myData=" + JSON.stringify(requestBody);
+     this.appUtils.callHttpApi("http://qna.ravindrababuravula.com/source/c/ClientCtrl.php/lastvouts", postData, headers, "POST")
+       .subscribe(data => {
+         
+         this.rows=data;
+         this.changeDetectorRef.detectChanges();
+        // console.log("Data is "+JSON.stringify(this.rows));
+       });
+   }
+ 
 }

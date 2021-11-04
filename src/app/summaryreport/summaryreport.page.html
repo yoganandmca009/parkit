@@ -1,0 +1,72 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Summary Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  
+          
+    <div style="padding: 13px 5px 5px 5px;text-align: center;background-color: lavender;"><span>MGBS Bus Stand - Hyderabad</span></div>
+    
+  
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="8" style="padding-bottom: 0px;">
+        <ion-card-content>
+          <ion-label  position="stacked"><b>Vehicle Number</b></ion-label>
+          <ion-item lines="none">
+              
+              <ion-input class="vehicle-number" placeholder="Enter Vehicle Number" [(ngModel)]="vehicleNo"></ion-input>  
+          </ion-item>
+          <ion-item lines="none" style="margin-bottom: -10px;">
+            <ion-checkbox color="primary" checked="false" [(ngModel)]="is_helmet"></ion-checkbox> &nbsp;&nbsp;
+        <ion-label>Helmet</ion-label>
+        </ion-item>
+        <ion-item lines="none">
+        <ion-checkbox color="primary" checked="false" [(ngModel)]="is_keys"></ion-checkbox> &nbsp;&nbsp;
+        <ion-label>Keys</ion-label>
+        </ion-item>
+        <ion-label style="float: right;"><a href="#">Last VIns</a></ion-label>
+    </ion-card-content>  
+      </ion-col>
+      <ion-col size="4">
+        <div style="border-bottom: 2px solid grey;">SCAN IN</div>
+      <div style="padding-top: 25px;" (click)="startScan('in')">  <ion-icon name="arrow-undo-outline" large large [style.color]="green"></ion-icon></div>
+    <div style="padding-top: 30px;"><b>4</b></div> 
+    </ion-col>
+      
+    </ion-row>
+    <ion-row>
+      <ion-col size="8" style="padding-bottom: 0px;">
+        <ion-card-content>
+          <ion-label  position="stacked"><b>Vehicle Number</b></ion-label>
+          <ion-item lines="none">
+              
+              <ion-input class="vehicle-number" placeholder="Enter Vehicle Number" [(ngModel)]="vehicleNo"></ion-input>  
+          </ion-item>
+          <ion-item lines="none" style="margin-bottom: -10px;">
+            Price : 20
+            </ion-item>
+            <ion-item lines="none">
+              Duration : 01H10M
+              </ion-item>
+              <ion-label style="float: left;"><a href="#">Print Bill</a></ion-label>
+              <ion-label style="float: right;"><a href="#">Last VOuts</a></ion-label>
+    </ion-card-content>  
+      </ion-col>
+      <ion-col size="4">
+        <div style="border-bottom: 2px solid grey;">SCAN OUT</div>
+        <div style="padding-top: 25px;" (click)="startScan('out')">    <ion-icon name="arrow-redo-outline" large [style.color]="'#EF3B51'"></ion-icon></div>
+      </ion-col>
+      
+    </ion-row>
+    </ion-grid>
+
+  
+</ion-content>

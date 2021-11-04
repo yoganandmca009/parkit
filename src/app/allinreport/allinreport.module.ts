@@ -4,19 +4,18 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { ReportsPageRoutingModule } from './reports-routing.module';
+import { AllinreportPageRoutingModule } from './allinreport-routing.module';
 
-import { ReportsPage } from './reports.page';
+import { AllinreportPage } from './allinreport.page';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ReportsPageRoutingModule,
+    AllinreportPageRoutingModule,
     NgxDatatableModule
   ],
-  declarations: [ReportsPage]
+  declarations: [AllinreportPage]
 })
-export class ReportsPageModule {}
+export class AllinreportPageModule {}
